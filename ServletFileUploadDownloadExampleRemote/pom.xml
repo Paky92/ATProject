@@ -32,7 +32,7 @@
         <version>2.1</version>
         <configuration>
           <url>http://bgianfranco.ddns.net:3131/manager/text</url>
-          <server>localhost</server>
+          <!-- <server>localhost</server> -->
           <path>/${project.build.finalName}</path>
         </configuration>
       </plugin>

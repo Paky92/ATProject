@@ -8,7 +8,9 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <context-param>
-    <param-name>tempfile.dir</param-name>
-    <param-value>tmpfiles</param-value>
+    <!-- <param-name>tempfile.dir</param-name>
+    <param-value>tmpfiles</param-value> -->
+    <param-name>folder.dir</param-name>
+    <param-value>ciccio</param-value>
   </context-param>
 </web-app>
