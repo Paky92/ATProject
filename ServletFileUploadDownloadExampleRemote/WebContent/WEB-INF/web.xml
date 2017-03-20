@@ -10,7 +10,7 @@
   <context-param>
     <!-- <param-name>tempfile.dir</param-name>
     <param-value>tmpfiles</param-value> -->
-    <param-name>tempfile.dir</param-name>
-    <param-value>ciccio</param-value>
+    <param-name>filehosting.dir</param-name>
+    <param-value>filehosting</param-value>
   </context-param>
 </web-app>
