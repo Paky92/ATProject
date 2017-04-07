@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/servlet1")
+@WebServlet("/servlet2")
 public class servlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class servlet2 extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/plan");
-		out.println("WARNING: Questa servlet1 non supporta il metodo doGet()!"
+		out.println("WARNING: Questa servlet2 non supporta il metodo doGet()!"
 				+ "\nPrego, provare col metodo doPost() (eseguire la FirstForm).");
 	}
 

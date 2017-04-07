@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -30,6 +31,16 @@ public class UploadDownloadFileServlet extends HttpServlet {
     Cookie cookie = null;
 	Cookie[] cookies = null;
     
+	public void dispatch(javax.servlet.http.HttpServletRequest request,
+			javax.servlet.http.HttpServletResponse response, String nextPage)
+			throws ServletException, IOException {
+
+
+			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+			dispatch.forward(request, response);
+
+			}
+	
 	@Override
 	public void init() throws ServletException{
 		DiskFileItemFactory fileFactory = new DiskFileItemFactory();
@@ -78,10 +89,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		if(!ServletFileUpload.isMultipartContent(request)){
 			throw new ServletException("Content type is not multipart/form-data");
 		}
-		
-		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		out.write("<html><head></head><body>");
 		try {
 			
 		      // Get an array of Cookies associated with this domain
@@ -112,15 +120,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				
 				System.out.println("Absolute Path at server="+file.getAbsolutePath());
 				fileItem.write(file);
-				out.write("File "+fileItem.getName()+ " Uploaded successfully.");
-				File[] directoryListing = dir.listFiles();
-				  if (directoryListing != null) {
-				    for (File child : directoryListing) {
-				    	out.write("<br>");
-						out.write("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+"\">Download "+getFileName(child.getName())+"</a>");
-				    }
-				  } else {
-				    }
+				dispatch(request, response, "index.html");
 				
 				
 			
@@ -131,7 +131,6 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		} catch (Exception e) {
 			out.write("Exception in uploading file.");
 		}
-		out.write("</body></html>");
 	}
 	
 	public String getFileName(String fname) {
