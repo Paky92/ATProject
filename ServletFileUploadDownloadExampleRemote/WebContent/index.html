@@ -1,10 +1,22 @@
 <html>
-<head></head>
+<head>
+	<script src="jquery/cookie.js"></script>
+</head>
+
 <body>
+<h2>Upload File</h2>
+
 <form method="post" enctype="multipart/form-data" action="UploadDownloadFileServlet"> 
-Select File to Upload:<input type="file" name="fileName">
-<br>
+
+	Select File to Upload:<input type="file" name="fileName">
+
+	<br>
+
 <input type="submit" value="Upload">
+
+Cookie Name: <script>document.write(getCookie("pippo"))</script>
+
 </form>
+
 </body>
 </html>

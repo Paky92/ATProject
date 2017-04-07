@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/servlet1")
-public class servlet1 extends HttpServlet {
+public class servlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void dispatch(javax.servlet.http.HttpServletRequest request,
@@ -56,17 +56,21 @@ public class servlet1 extends HttpServlet {
 		out.println("\nAT - Prima Servlet, Prima Form!");
 
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
-		String queryCheck = "SELECT * FROM account WHERE username = ?";
+		String queryCheck = "SELECT * FROM account WHERE username = ? AND password = ?";
 		PreparedStatement st = con.prepareStatement(queryCheck); 
         st.setString(1, request.getParameter("username"));
+        st.setString(2, request.getParameter("password"));
         ResultSet rs = st.executeQuery();
         
 		if (rs.next() == true)
 		{
-			out.println("\nERROR: ("+ request.getParameter("username")+") coincide con un Account già presente nel database!"
-					+ "\nPrego, inserirne uno diverso!");
+			dispatch(request, response, "index.html");
 			
-			//inoltrare e visualizzare sul Browser Client un pulsante Go Back di ritorno alla form
+			st.close();
+		}
+		else
+		{
+			out.println("\nERROR: Username o password sbagliati, ricontrollare");
 			response.setContentType("text/html");
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
@@ -80,33 +84,8 @@ public class servlet1 extends HttpServlet {
 			out.println("</html>");
 			
 			st.close();
-		}
-		else
-		{
-			st.close();
-			/*out.println("Account");
-			out.println("UserName: " + request.getParameter("username") + "\n");
-			out.println("Password: " + request.getParameter("password") + "\n");
-			out.println("Email: " + request.getParameter("email") + "\n");
-			*/
-		// Creazione degli oggetti Account e Utente
-		account account = new account(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
-		 
-		String queryInsertAccount = "INSERT INTO account (username, password, email) VALUES (? ,? ,?)";
-		PreparedStatement IA = con.prepareStatement(queryInsertAccount);
-		IA.setString(1, account.leggiUsername());
-		IA.setString(2, account.leggiPassword());
-		IA.setString(3, account.leggiEmail());
+					
 		
-		IA.executeUpdate();
-		
-		IA.close();
-		
-		
-		
-		
-		
-		dispatch(request, response, "index.html");
 		
 		
 		}

@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -25,6 +26,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class UploadDownloadFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ServletFileUpload uploader = null;
+    
+    Cookie cookie = null;
+	Cookie[] cookies = null;
     
 	@Override
 	public void init() throws ServletException{
@@ -40,11 +44,12 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		
 		String fileName = request.getParameter("fileName");		
 		String fileN = getFileName(fileName); 
+		cookies = request.getCookies();
 		
 		if(fileName == null || fileName.equals("")){
 			throw new ServletException("File Name can't be null or empty");
 		}
-		File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+fileN);
+		File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+cookies[0].getName()+File.separator+fileN);
 		if(!file.exists()){
 			throw new ServletException("File doesn't exists on server.");
 		}
@@ -79,6 +84,9 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		out.write("<html><head></head><body>");
 		try {
 			
+		      // Get an array of Cookies associated with this domain
+		    cookies = request.getCookies();
+			
 			List<FileItem> fileItemsList = uploader.parseRequest(request);
 			Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
 			while(fileItemsIterator.hasNext()){
@@ -94,13 +102,28 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				System.out.println("ContentType="+fileItem.getContentType());
 				System.out.println("Size in bytes="+fileItem.getSize());
 				
-				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ fileName1);
+				File dir = new File (request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue());
+				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue() + File.separator + fileName1);
+				
+				if (!dir.exists())
+				{
+					dir.mkdirs();
+				}
 				
 				System.out.println("Absolute Path at server="+file.getAbsolutePath());
 				fileItem.write(file);
 				out.write("File "+fileItem.getName()+ " Uploaded successfully.");
-				out.write("<br>");
-				out.write("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
+				File[] directoryListing = dir.listFiles();
+				  if (directoryListing != null) {
+				    for (File child : directoryListing) {
+				    	out.write("<br>");
+						out.write("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+"\">Download "+getFileName(child.getName())+"</a>");
+				    }
+				  } else {
+				    }
+				
+				
+			
 			}
 			
 		} catch (FileUploadException e) {

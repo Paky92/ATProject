@@ -23,7 +23,8 @@ $(document).ready(function () {
             	email:"Inserire un indirizzo email valido!"
             }
          },
-    /*submitHandler: function(form) {
+    /*
+     * 	 submitHandler: function(form) {
          alert("Inserimento campi obbligatori riuscito!");
          form.submit(); 
         }*/
