@@ -1,4 +1,116 @@
-<html>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+			"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>First Login</title>
+
+<script language="javascript">
+	// Crea una nuova richiesta XML-HTTP (Ajax Engine to Server)
+	function newXMLHttpRequest() {
+		var request = null;
+		var browser = navigator.userAgent.toUpperCase();
+		if(typeof(XMLHttpRequest) === "function" || typeof(XMLHttpRequest) === "object") {
+			request = new XMLHttpRequest();
+		} else if(window.ActiveXObject && browserUtente.indexOf("MSIE 4") < 0) {
+			if(browser.indexOf("MSIE 5") < 0) {
+				request = new ActiveXObject("Msxml2.XMLHTTP");
+			} else {
+				request = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		}
+		return request;
+	}
+	
+	//1) Javascript Call-Back (Client to Ajax Engine)
+	function validaInput() {
+		var ricerca = document.getElementById("testo");
+		if (ricerca.value != "") {
+			var req = newXMLHttpRequest();
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					if (req.status == 200) {
+						gestisciRisposta(req.responseXML);
+					}
+				}
+			};
+	//3) Spedire la richiesta al Server, DOPO averne validato il contenuto 
+			req.open("post", "validate", true);
+			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			var params = "id=" + escape(ricerca.value);
+			req.send(params);
+		}
+	}
+
+	//Ajax Engine
+	//Gestione della risposta in XML proveniente dal Server
+	//2) Comunicazione tra Ajax Engine e Server
+	function gestisciRisposta(responseXML) {
+		if(responseXML.getElementsByTagName("risposta").length > 0) {
+			var risposta = responseXML.getElementsByTagName("risposta");
+			var output = document.getElementById("risultato");
+			output.innerHTML = "";
+			if(risposta.nodeValue == "valido") {
+				// L'input esiste
+				output.setAttribute("style", "color:green");
+				output.appendChild(document.createTextNode("esiste"));
+			} else {
+				// L'input non esiste
+				output.setAttribute("style", "color:red");
+				output.appendChild(document.createTextNode("non esiste"));
+			}
+		}
+	}
+</script>
+
+</head>
+
+<body>
+<form id="form" method="post" enctype="multipart/form-data" action="validate">
+
+<table>
+<tbody>
+<tr>
+
+<!--  <td>Input:</td>
+<td><input id="testo" type="text" onkeyup="validaInput();"></input></td>
+<td id="risultato"></td>
+-->
+	Select File to Upload:
+	<input type="file" name="fileName" >
+	<br>
+	<input type="submit" value="Upload">
+	<input id="testo" type="text" onkeyup="validaInput();">
+	<td id="risultato"></td>
+
+</tr>
+</tbody>
+</table>
+
+</form>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  <html>
 <head>
 	<script src="jquery/cookie.js"></script>
 </head>
@@ -12,9 +124,10 @@
 	<br>
 	<input type="submit" value="Upload">
 
-<!-- Cookie Name: <script>document.write(getCookie("pippo"))</script> -->
+ Cookie Name: <script>document.write(getCookie("pippo"))</script> 
 
 </form>
 
 </body>
 </html>
+-->
