@@ -35,7 +35,6 @@ public class UploadDownloadFileServlet extends HttpServlet {
 			javax.servlet.http.HttpServletResponse response, String nextPage)
 			throws ServletException, IOException {
 
-
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);
 
@@ -60,12 +59,13 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		if(fileName == null || fileName.equals("")){
 			throw new ServletException("File Name can't be null or empty");
 		}
-		File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+cookies[0].getName()+File.separator+fileN);
+		File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator +cookies[0].getName() +File.separator+fileN);
 		if(!file.exists()){
 			throw new ServletException("File doesn't exists on server.");
 		}
 		
-		System.out.println("File location on server: "+file.getAbsolutePath());
+		
+		System.out.println("File location on server: " +file.getAbsolutePath());
 		ServletContext ctx = getServletContext();
 		InputStream fis = new FileInputStream(file);
 		String mimeType = ctx.getMimeType(file.getAbsolutePath());
@@ -90,6 +90,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 			throw new ServletException("Content type is not multipart/form-data");
 		}
 		PrintWriter out = response.getWriter();
+		response.setContentType("text/plan");
 		try {
 			
 		      // Get an array of Cookies associated with this domain
@@ -120,9 +121,26 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				
 				System.out.println("Absolute Path at server="+file.getAbsolutePath());
 				fileItem.write(file);
-				dispatch(request, response, "index.html");
+				
+				//dispatch(request, response, "index.html");
+				
+				File[] directoryListing = dir.listFiles();
 				
 				
+				out.append("<html><body>");
+				  if (directoryListing != null) 
+				  {
+				    for (File child : directoryListing)
+				    {
+				    	out.write("<br>");
+						out.write("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+"\">Download "+getFileName(child.getName())+"</a>");
+				    }
+				  } 
+				  else
+				  {
+				    
+				  }
+				  out.write("</body></html>");
 			
 			}
 			
