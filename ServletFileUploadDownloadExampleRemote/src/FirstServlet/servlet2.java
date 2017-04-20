@@ -50,10 +50,11 @@ public class servlet2 extends HttpServlet {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection con = DriverManager.getConnection(url, "root", "");
 		
+		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();
-		out.println("\nAT - Prima Servlet, Prima Form!");
+		out.println("\nServlet2");
 
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
 		String queryCheck = "SELECT * FROM account WHERE username = ? AND password = ?";
@@ -84,9 +85,7 @@ public class servlet2 extends HttpServlet {
 			out.println("</html>");
 			
 			st.close();
-					
-		
-		
+
 		
 		}
     }

@@ -43,16 +43,18 @@ public class servlet1 extends HttpServlet {
         //URL del database locale che memorizza le credenziali inserite nella FirstForm
         //String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
 		String url = "jdbc:mysql://localhost:3306/at";
+		
 	try
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection con = DriverManager.getConnection(url, "root", "");
+		//Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();
-		out.println("\nAT - Prima Servlet, Prima Form!");
+		out.println("\nServlet1 - utilizzata per il Sign Up e dispatch ad index");
 
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
 		String queryCheck = "SELECT * FROM account WHERE username = ?";
@@ -82,10 +84,9 @@ public class servlet1 extends HttpServlet {
 		}
 		else
 		{
-			st.close();
-
 		// Creazione degli oggetti Account e Utente
-		account account = new account(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
+		account account = new account(request.getParameter("username"), 
+				request.getParameter("password"), request.getParameter("email"));
 		 
 		String queryInsertAccount = "INSERT INTO account (username, password, email) VALUES (? ,? ,?)";
 		PreparedStatement IA = con.prepareStatement(queryInsertAccount);
@@ -93,11 +94,11 @@ public class servlet1 extends HttpServlet {
 		IA.setString(2, account.leggiPassword());
 		IA.setString(3, account.leggiEmail());
 		
+		dispatch(request, response, "index.html");
+		
 		IA.executeUpdate();
-		
 		IA.close();
-		
-			dispatch(request, response, "index.html");	
+		st.close();
 		
 		}
     }

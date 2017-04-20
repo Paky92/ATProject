@@ -1,3 +1,6 @@
+/*Java Script*/
+/*Funzioni per la gestione del cookie Utente tra Client e Server*/
+
 	function setCookie(cname, cvalue, exdays) {
 	    var d = new Date();
 	    d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -21,7 +24,7 @@
 	    }
 	    return "";
 	}
-//$('#form').submit(myFormOnSubmit);
+	
 	function checkCookie() {
 	    var user=getCookie("pippo");
 	    if (user != "" && user == document.getElementById("user").value) {

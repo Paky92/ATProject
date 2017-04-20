@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,16 @@ public class validate extends HttpServlet {
     public validate() {
         super();
     }
+    
+    public void dispatch(javax.servlet.http.HttpServletRequest request,
+			javax.servlet.http.HttpServletResponse response, String nextPage)
+			throws ServletException, IOException {
+
+
+			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+			dispatch.forward(request, response);
+
+			}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
@@ -44,13 +55,14 @@ public class validate extends HttpServlet {
 			Connection con = DriverManager.getConnection(url, "root", "");
 				        
 	        //Valore di input inserito dal Client
-	        String targetId = request.getParameter("id");
+	        String targetId = request.getParameter("id1");
 	        if(targetId == null || targetId.equals("")) {
 	        	System.out.println("In attesa di un input ...");
 	        	response.sendError(HttpServletResponse.SC_NO_CONTENT);
 	        	//return;
 	        }
 	        else
+	        {
 	        	System.out.println("Il client ha inviato: " + targetId);
 	 
 	        // Controllo se il valore di input inserito esiste già nel database
@@ -67,12 +79,14 @@ public class validate extends HttpServlet {
 		    	PrintWriter out = response.getWriter();
 				out.append("<risposta>valido</risposta>");
 		    	st.close();
-			} else {
+			} 
+		    else{
 				// risposta XML da parte del Server: valore "invalido"
 		    	PrintWriter out = response.getWriter();
 				out.append("<risposta>invalido</risposta>");
 		    	st.close();
-			}
+				}
+	        }
 		}
 			
 			catch (InstantiationException e)
