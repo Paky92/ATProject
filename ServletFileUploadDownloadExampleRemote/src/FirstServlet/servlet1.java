@@ -23,7 +23,6 @@ public class servlet1 extends HttpServlet {
 			javax.servlet.http.HttpServletResponse response, String nextPage)
 			throws ServletException, IOException {
 
-
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);
 
@@ -84,11 +83,7 @@ public class servlet1 extends HttpServlet {
 		else
 		{
 			st.close();
-			/*out.println("Account");
-			out.println("UserName: " + request.getParameter("username") + "\n");
-			out.println("Password: " + request.getParameter("password") + "\n");
-			out.println("Email: " + request.getParameter("email") + "\n");
-			*/
+
 		// Creazione degli oggetti Account e Utente
 		account account = new account(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
 		 
@@ -102,12 +97,7 @@ public class servlet1 extends HttpServlet {
 		
 		IA.close();
 		
-		
-		
-		
-		
-		dispatch(request, response, "index.html");
-		
+			dispatch(request, response, "index.html");	
 		
 		}
     }
@@ -134,8 +124,4 @@ public class servlet1 extends HttpServlet {
 	    }
     }
 	
-	
-	
-	
 }
-	
