@@ -54,7 +54,7 @@ public class servlet1 extends HttpServlet {
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();
-		out.println("\nServlet1 - utilizzata per il Sign Up e dispatch ad index");
+		out.println("\nServlet1 - Sign UP and dispatching to index.html");
 
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
 		String queryCheck = "SELECT * FROM account WHERE username = ?";
@@ -64,10 +64,11 @@ public class servlet1 extends HttpServlet {
         
 		if (rs.next() == true)
 		{
-			out.println("\nERROR: ("+ request.getParameter("username")+") coincide con un Account già presente nel database!"
+			out.println("\nERROR: ("+ request.getParameter("username")+")"
+					+ "coincide con un Account già presente nel database!"
 					+ "\nPrego, inserirne uno diverso!");
 			
-			//inoltrare e visualizzare sul Browser Client un pulsante Go Back di ritorno alla form
+			//inoltrare e visualizzare sul Browser Client un pulsante GoBack di ritorno alla form
 			response.setContentType("text/html");
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");

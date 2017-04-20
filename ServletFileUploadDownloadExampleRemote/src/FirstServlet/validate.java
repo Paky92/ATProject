@@ -55,7 +55,8 @@ public class validate extends HttpServlet {
 			Connection con = DriverManager.getConnection(url, "root", "");
 				        
 	        //Valore di input inserito dal Client
-	        String targetId = request.getParameter("id1");
+	        String targetId = request.getParameter("id");
+	        System.out.println(targetId);
 	        if(targetId == null || targetId.equals("")) {
 	        	System.out.println("In attesa di un input ...");
 	        	response.sendError(HttpServletResponse.SC_NO_CONTENT);
