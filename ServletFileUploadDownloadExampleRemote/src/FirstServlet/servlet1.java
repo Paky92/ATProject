@@ -95,7 +95,7 @@ public class servlet1 extends HttpServlet {
 		IA.setString(2, account.leggiPassword());
 		IA.setString(3, account.leggiEmail());
 		
-		dispatch(request, response, "index.html");
+		dispatch(request, response, "upload.html");
 		
 		IA.executeUpdate();
 		IA.close();

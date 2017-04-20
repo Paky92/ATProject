@@ -65,7 +65,7 @@ public class servlet2 extends HttpServlet {
         
 		if (rs.next() == true)
 		{
-			dispatch(request, response, "index.html");
+			dispatch(request, response, "upload.html");
 			
 			st.close();
 		}
