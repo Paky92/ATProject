@@ -59,11 +59,11 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		if(fileName == null || fileName.equals("")){
 			throw new ServletException("File Name can't be null or empty");
 		}
-		File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator +cookies[0].getName() +File.separator+fileN);
+		File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator +cookies[0].getValue() +File.separator+fileN);
+				
 		if(!file.exists()){
 			throw new ServletException("File doesn't exists on server.");
 		}
-		
 		
 		System.out.println("File location on server: " +file.getAbsolutePath());
 		ServletContext ctx = getServletContext();
@@ -83,6 +83,8 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		os.close();
 		fis.close();
 		System.out.println("File downloaded at client successfully.");
+	
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -111,7 +113,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				System.out.println("ContentType="+fileItem.getContentType());
 				System.out.println("Size in bytes="+fileItem.getSize());
 				
-				File dir = new File (request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue());
+				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue());
 				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue() + File.separator + fileName1);
 				
 				if (!dir.exists())
@@ -122,10 +124,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				System.out.println("Absolute Path at server="+file.getAbsolutePath());
 				fileItem.write(file);
 				
-				//dispatch(request, response, "index.html");
-				
 				File[] directoryListing = dir.listFiles();
-				
 				
 				out.append("<html><body>");
 				  if (directoryListing != null) 
@@ -133,7 +132,8 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				    for (File child : directoryListing)
 				    {
 				    	out.write("<br>");
-						out.write("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+"\">Download "+getFileName(child.getName())+"</a>");
+						out.write("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+"\">Download "+
+								getFileName(child.getName())+"</a>");
 				    }
 				  } 
 				  else
