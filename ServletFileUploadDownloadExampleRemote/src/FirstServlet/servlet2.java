@@ -66,7 +66,8 @@ public class servlet2 extends HttpServlet {
 		if (rs.next() == true)
 		{
 			dispatch(request, response, "upload.html");
-			
+			/*inserire LISTA file dell'utente loggato*/
+			/*se non sono presenti file, inserire un messaggio di ASSENZA directory e/o file*/
 			st.close();
 		}
 		else
