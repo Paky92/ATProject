@@ -1,10 +1,143 @@
-<html>
-<head></head>
-<body>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+			"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>First Login</title>
+
+<script language="javascript">
+	// Crea una nuova richiesta asincrona XML-HTTP from Ajax Engine to Server
+	function newXMLHttpRequest() {
+		var request = null;
+		var browser = navigator.userAgent.toUpperCase();
+		if(typeof(XMLHttpRequest) === "function" || typeof(XMLHttpRequest) === "object") {
+			request = new XMLHttpRequest();
+		} else if(window.ActiveXObject && browserUtente.indexOf("MSIE 4") < 0) {
+			if(browser.indexOf("MSIE 5") < 0) {
+				request = new ActiveXObject("Msxml2.XMLHTTP");
+			} else {
+				request = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		}
+		return request;
+	}
+	// Javascript Call-Back from Client to Ajax Engine
+	function validaInput() {
+		var ricerca = document.getElementById("testo");
+		if (ricerca.value != "") {
+			var req = newXMLHttpRequest();
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					if (req.status == 200) {
+						gestisciRisposta(req.responseXML);
+					}
+				}
+			};
+	// Ajax Engine spedisce la richiesta al Server, gestita dalla servlet 'validate' 
+			req.open("post", "validate", true);
+			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			var params = "id=" + escape(ricerca.value);
+			req.send(params);
+		}
+	}
+	//Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
+	function gestisciRisposta(responseXML) {
+		if(responseXML.getElementsByTagName("risposta").length > 0) {
+			var risposta = responseXML.getElementsByTagName("risposta")[0];
+			var output = document.getElementById("risultato");
+			output.innerHTML = "";
+			if(risposta.childNodes[0].nodeValue == "valido") {
+				// L'input esiste
+				output.setAttribute("style", "color:green");
+				output.appendChild(document.createTextNode("esiste"));
+			} else {
+				// L'input non esiste
+				output.setAttribute("style", "color:red");
+				output.appendChild(document.createTextNode("non esiste"));
+				
+			}
+		}
+	}
+
+	//************************
+	
+	// Javascript Call-Back from Client to Ajax Engine
+	function list() {
+		//var ricerca = document.getElementById("testo");
+		//if (ricerca.value != "") {
+			var req = newXMLHttpRequest();
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					if (req.status == 200) {
+						gestisciRispostalist(req.responseXML);
+					}
+				}
+			};
+	// Ajax Engine spedisce la richiesta al Server, gestita dalla servlet 'validate' 
+			req.open("post", "ListDownloadFileServlet", true);
+			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			var params = "";
+			req.send(params);
+		//}
+	}
+	//Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
+	function gestisciRispostalist(responseXML) {
+		 alert("entrato in gestisci_list");
+		 //alert(responseXML.getElementsByTagName("list").length);
+		if(responseXML.getElementsByTagName("list")[0].length > 0) {
+			alert("entrato in list > 0");
+			
+			var risposta = responseXML.getElementsByTagName("list")[0];
+			alert(responseXML.getElementsByTagName("list"));
+			
+			for (var i = 0; i < risposta.length; i++) {   
+			    var user = risposta[i].firstChild.nodeValue;
+			    var tr = document.createElement("tr");
+			    var a = document.createElement('a');
+			    var textNode = document.createTextNode(user);
+			    a.setAttribute('href', "\UploadDownloadFileServlet?fileName="+user+"\"");
+			    a.appendChild("Download: "+textNode);
+			    tr.appendChild(a);        
+			    document.getElementById("risultato").appendChild(tr);
+			}
+			//var output = document.getElementById("risultato");
+			//output.innerHTML = "";
+			//if(risposta.childNodes[0].nodeValue == "valido") {
+				// L'input esiste
+				//output.setAttribute("style", "color:green");
+				//output.appendChild(document.createTextNode("esiste"));
+			//} else {
+				// L'input non esiste
+				//output.setAttribute("style", "color:red");
+				//output.appendChild(document.createTextNode("non esiste"));
+				
+			}
+		}
+	
+	
+	//************************
+	
+</script>
+</head>
+
+<body onload="list();">
 <form action="UploadDownloadFileServlet" method="post" enctype="multipart/form-data">
-Select File to Upload:<input type="file" name="fileName">
-<br>
-<input type="submit" value="Upload">
+
+<table>
+<tbody id="risultato">
+<tr>
+
+<td>Select File to Upload:</td>
+<td><input id="testo" type="file" name="fileName" ></input></td>
+<td><input type="submit" value="Upload"></input></td>
+
+<td ></td>
+
+</tr>
+</tbody>
+</table>
+
 </form>
 </body>
 </html>

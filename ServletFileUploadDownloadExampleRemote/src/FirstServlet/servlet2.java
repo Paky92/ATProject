@@ -54,7 +54,7 @@ public class servlet2 extends HttpServlet {
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();
-		out.println("\nServlet2 - Signi In (Login) and dispatching to index.html");
+		out.println("\nServlet2 - Sign In (Login) and dispatching to upload.html");
 
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
 		String queryCheck = "SELECT * FROM account WHERE username = ? AND password = ?";

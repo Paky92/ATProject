@@ -23,13 +23,14 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-@WebServlet("/UploadDownloadFileServlet")
-public class UploadDownloadFileServlet extends HttpServlet {
+@WebServlet("/ListDownloadFileServlet")
+public class ListDownloadFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ServletFileUpload uploader = null;
     
     Cookie cookie = null;
 	Cookie[] cookies = null;
+	
     
 	@Override
 	public void init() throws ServletException{
@@ -83,66 +84,88 @@ public class UploadDownloadFileServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(!ServletFileUpload.isMultipartContent(request)){
-			throw new ServletException("Content type is not multipart/form-data");
-		}
-		
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.append("<html><head></head><body>");
-		
+//		if(!ServletFileUpload.isMultipartContent(request)){
+//			throw new ServletException("Content type is not multipart/form-data");
+//		}
+			
+		System.out.println("Ciao!");
 		try {
+			System.out.println("Hello!");
 		    // Get an array of Cookies associated with this domain
 		    cookies = request.getCookies();
 			
-			List<FileItem> fileItemsList = uploader.parseRequest(request);
-			Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
-			while(fileItemsIterator.hasNext()){
-				String fileName1="";
-				FileItem fileItem = fileItemsIterator.next();
-				System.out.println("FieldName="+fileItem.getFieldName());
-				System.out.println("FileName="+fileItem.getName());
+			//List<FileItem> fileItemsList = uploader.parseRequest(request);
+			//Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
+//			while(fileItemsIterator.hasNext()){
+////				String fileName1="";
+//				FileItem fileItem = fileItemsIterator.next();
+//				System.out.println("FieldName="+fileItem.getFieldName());
+//				System.out.println("FileName="+fileItem.getName());
+//				
+//				String fileN = fileItem.getName();
+//				fileName1=getFileName(fileN);
 				
-				String fileN = fileItem.getName();
-				fileName1=getFileName(fileN);
-				
-				System.out.println("ContentType="+fileItem.getContentType());
-				System.out.println("Size in bytes="+fileItem.getSize());
-				
+//				System.out.println("ContentType="+fileItem.getContentType());
+//				System.out.println("Size in bytes="+fileItem.getSize());
+//				
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue());
-				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue() + File.separator + fileName1);
+//				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue() + File.separator + fileName1);
 				
-				if (!dir.exists()){
-					dir.mkdirs();
+				System.out.println("Ciccio!");
+				if (dir.exists()){
+					System.out.println("Pasticcio");
+					File[] directoryListing = dir.listFiles();
+					
+					response.setContentType("text/xml; charset=UTF-8");
+					response.setHeader("Cache-Control", "no-cache"); 
+					PrintWriter out = response.getWriter();
+					
+					
+					  if (directoryListing != null){
+						  System.out.println("La directory esiste!");
+		
+						  String xml = "";			  
+						 
+					    for (int i=0; i<directoryListing.length; i++){
+//					    	out.append("<br>");
+//							out.append("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+
+//									"\">Download "+getFileName(child.getName())+"</a>");
+//					    	System.out.println("Aggiunge il tag <list>");
+//					    	System.out.println(child.getName());
+//					    	System.out.println(getFileName(child.getName()));
+//					    	System.out.println("<list>"+getFileName(child.getName())+"</list>");
+//					    	
+					    	xml=xml.concat("\n<list>"+directoryListing[i].getName()+"</list>");
+					  
+							}
+					    System.out.println(xml);
+					    out.write(xml);
+					  } 
+					  else{
+						  
+					  }
+									
+				}
+				else {
+					System.out.println("Non esiste una cartella!");	
 				}
 				
-				System.out.println("Absolute Path at server="+file.getAbsolutePath());
-				fileItem.write(file);
+//				System.out.println("Absolute Path at server="+file.getAbsolutePath());
+//				fileItem.write(file);
 				
-				out.append("File "+fileItem.getName()+ " Uploaded successfully.");
+//				out.append("File "+fileItem.getName()+ " Uploaded successfully.");
 								
 				/*inserire LISTA e nuovo UPLOAD*/
 				
-//				File[] directoryListing = dir.listFiles();
 				
-//				  if (directoryListing != null){
-//				    for (File child : directoryListing){
-//				    	out.append("<pippol>valido</pippol>");
-//				    	out.append("<br>");
-//						out.append("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+
-//								"\">Download "+getFileName(child.getName())+"</a>");
-//						}
-//				  } 
-//				  else{
-//				  }
-			}
+//			}
 			
-		} catch (FileUploadException e) {
-			out.write("Exception in uploading file.");
+//		} catch (FileUploadException e) {
+//			out.write("Exception in uploading file.");
 		} catch (Exception e) {
-			out.write("Exception in uploading file.");
+			//out.write("Exception in uploading file.");
 		}
-		out.append("</body></html>");
+		//out.append("</body></html>");
 	}
 	
 	public void dispatch(javax.servlet.http.HttpServletRequest request,
