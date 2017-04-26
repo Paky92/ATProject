@@ -114,7 +114,6 @@ public class ListDownloadFileServlet extends HttpServlet {
 					System.out.println("Non esiste una directory utente!");	
 				}
 										
-				/*inserire LISTA e nuovo UPLOAD*/
 		
 		} catch (Exception e) {
 			out.write("Exception in uploading file.");
