@@ -39,7 +39,7 @@ public class ListDownloadFileServlet extends HttpServlet {
 		fileFactory.setRepository(filesDir);
 		this.uploader = new ServletFileUpload(fileFactory);
 	}
-	
+	//si può anche eliminare la GET per il Download
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 
@@ -75,9 +75,7 @@ public class ListDownloadFileServlet extends HttpServlet {
 		os.flush();
 		os.close();
 		fis.close();
-		
-		/* inserire popup del messaggio di download corretto avvenuto*/
-		
+			
 		System.out.println("File downloaded at client successfully.");
 	
 	}

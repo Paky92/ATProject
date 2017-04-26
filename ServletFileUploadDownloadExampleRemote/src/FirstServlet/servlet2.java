@@ -50,7 +50,6 @@ public class servlet2 extends HttpServlet {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection con = DriverManager.getConnection(url, "root", "");
 		
-		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();

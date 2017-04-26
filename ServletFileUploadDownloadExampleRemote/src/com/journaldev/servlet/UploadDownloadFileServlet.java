@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -76,8 +77,6 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		os.close();
 		fis.close();
 		
-		/* inserire popup del messaggio di download corretto avvenuto*/
-		
 		System.out.println("File downloaded at client successfully.");
 	
 	}
@@ -86,11 +85,8 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		if(!ServletFileUpload.isMultipartContent(request)){
 			throw new ServletException("Content type is not multipart/form-data");
 		}
-		
-		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		out.append("<html><head></head><body>");
-		
+		response.setContentType("text/plan");
 		try {
 		    // Get an array of Cookies associated with this domain
 		    cookies = request.getCookies();
@@ -121,10 +117,8 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				System.out.println("Absolute Path at server="+file.getAbsolutePath());
 				
 				fileItem.write(file);
-				out.append("File "+fileItem.getName()+ " Uploaded successfully.");
-								
-				/*inserire LISTA e ricarica nuovo UPLOAD*/
-				
+					
+				dispatch(request, response, "upload.html");				
 			}
 			
 		} catch (FileUploadException e) {
@@ -132,7 +126,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		} catch (Exception e) {
 			out.write("Exception in uploading file.");
 		}
-		out.append("</body></html>");
+
 	}
 	
 	public void dispatch(javax.servlet.http.HttpServletRequest request,

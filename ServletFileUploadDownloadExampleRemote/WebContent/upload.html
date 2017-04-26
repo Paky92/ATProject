@@ -37,7 +37,6 @@
 	// Ajax Engine spedisce la richiesta al Server, gestita dalla servlet 'validate' 
 			req.open("post", "validate", true);
 			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-			
 			var params = "id=" + escape(ricerca.value);
 			req.send(params);
 		}
@@ -61,8 +60,7 @@
 		}
 	}
 
-	//************************
-	
+//***********************************************************************************
 	// Javascript Call-Back from Client to Ajax Engine
 	function list() {
 			var req = newXMLHttpRequest();
@@ -76,7 +74,6 @@
 	// Ajax Engine spedisce la richiesta al Server, gestita dalla servlet 'validate' 
 			req.open("post", "ListDownloadFileServlet", true);
 			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-			
 			var params = "";
 			req.send(params);
 	}
@@ -85,23 +82,25 @@
 
 		if(responseXML.getElementsByTagName("list").length > 0) {
 			var risposta = responseXML.getElementsByTagName("list");
+			var output = document.getElementById("risultato");
+			output.innerHTML = "";
 						
 			for (var i = 0; i < risposta.length; i++) {   
-				alert("entrato nel for risposta");
 			    var user = risposta[i].firstChild.nodeValue;
-			    var tr = document.createElement("tr");
+			    var li = document.createElement("LI");
 			    var a = document.createElement('a');
-			    var textNode = document.createTextNode(user);
-			    a.setAttribute('href', "\UploadDownloadFileServlet?fileName="+user+"\"");
-			    a.appendChild("Download: "+textNode);
-			    tr.appendChild(a);        
-			    document.getElementById("risultato").appendChild(tr);
-			}
+			    var linkText = document.createTextNode(user);
+			    a.appendChild(linkText);
+				a.title = "link";
+			    a.href="UploadDownloadFileServlet?fileName="+user;
+			    li.appendChild(a);
+			    output.appendChild(li);
+			} 
+			
 		  }
-		}
-	
-	
-	//************************
+		
+	}
+//***********************************************************************************
 	
 </script>
 </head>
@@ -109,20 +108,13 @@
 <body onload="list();">
 <form action="UploadDownloadFileServlet" method="post" enctype="multipart/form-data">
 
-<table>
-<tbody id="risultato">
-<tr>
+Select File to Upload:
+<input id="testo" type="file" name="fileName" ></input>
+<input type="submit" value="Upload"></input>
 
-<td>Select File to Upload:</td>
-<td><input id="testo" type="file" name="fileName" ></input></td>
-<td><input type="submit" value="Upload"></input></td>
-
-<td ></td>
-
-</tr>
-</tbody>
-</table>
+<ul id="risultato"></ul>
 
 </form>
+
 </body>
 </html>
