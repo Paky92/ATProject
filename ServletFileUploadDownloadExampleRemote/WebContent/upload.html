@@ -37,6 +37,7 @@
 	// Ajax Engine spedisce la richiesta al Server, gestita dalla servlet 'validate' 
 			req.open("post", "validate", true);
 			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			
 			var params = "id=" + escape(ricerca.value);
 			req.send(params);
 		}
@@ -64,8 +65,6 @@
 	
 	// Javascript Call-Back from Client to Ajax Engine
 	function list() {
-		//var ricerca = document.getElementById("testo");
-		//if (ricerca.value != "") {
 			var req = newXMLHttpRequest();
 			req.onreadystatechange = function() {
 				if (req.readyState == 4) {
@@ -77,21 +76,18 @@
 	// Ajax Engine spedisce la richiesta al Server, gestita dalla servlet 'validate' 
 			req.open("post", "ListDownloadFileServlet", true);
 			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			
 			var params = "";
 			req.send(params);
-		//}
 	}
 	//Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
 	function gestisciRispostalist(responseXML) {
-		 alert("entrato in gestisci_list");
-		 //alert(responseXML.getElementsByTagName("list").length);
-		if(responseXML.getElementsByTagName("list")[0].length > 0) {
-			alert("entrato in list > 0");
-			
-			var risposta = responseXML.getElementsByTagName("list")[0];
-			alert(responseXML.getElementsByTagName("list"));
-			
+
+		if(responseXML.getElementsByTagName("list").length > 0) {
+			var risposta = responseXML.getElementsByTagName("list");
+						
 			for (var i = 0; i < risposta.length; i++) {   
+				alert("entrato nel for risposta");
 			    var user = risposta[i].firstChild.nodeValue;
 			    var tr = document.createElement("tr");
 			    var a = document.createElement('a');
@@ -101,18 +97,7 @@
 			    tr.appendChild(a);        
 			    document.getElementById("risultato").appendChild(tr);
 			}
-			//var output = document.getElementById("risultato");
-			//output.innerHTML = "";
-			//if(risposta.childNodes[0].nodeValue == "valido") {
-				// L'input esiste
-				//output.setAttribute("style", "color:green");
-				//output.appendChild(document.createTextNode("esiste"));
-			//} else {
-				// L'input non esiste
-				//output.setAttribute("style", "color:red");
-				//output.appendChild(document.createTextNode("non esiste"));
-				
-			}
+		  }
 		}
 	
 	

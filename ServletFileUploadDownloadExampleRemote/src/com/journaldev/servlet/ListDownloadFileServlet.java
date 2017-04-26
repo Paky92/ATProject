@@ -29,8 +29,7 @@ public class ListDownloadFileServlet extends HttpServlet {
     private ServletFileUpload uploader = null;
     
     Cookie cookie = null;
-	Cookie[] cookies = null;
-	
+	Cookie[] cookies = null;	
     
 	@Override
 	public void init() throws ServletException{
@@ -83,89 +82,46 @@ public class ListDownloadFileServlet extends HttpServlet {
 	
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		if(!ServletFileUpload.isMultipartContent(request)){
-//			throw new ServletException("Content type is not multipart/form-data");
-//		}
-			
-		System.out.println("Ciao!");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+
+		response.setContentType("text/xml");
+		response.setHeader("Cache-Control", "no-cache"); 
+		PrintWriter out = response.getWriter();
 		try {
-			System.out.println("Hello!");
+			
 		    // Get an array of Cookies associated with this domain
 		    cookies = request.getCookies();
-			
-			//List<FileItem> fileItemsList = uploader.parseRequest(request);
-			//Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
-//			while(fileItemsIterator.hasNext()){
-////				String fileName1="";
-//				FileItem fileItem = fileItemsIterator.next();
-//				System.out.println("FieldName="+fileItem.getFieldName());
-//				System.out.println("FileName="+fileItem.getName());
-//				
-//				String fileN = fileItem.getName();
-//				fileName1=getFileName(fileN);
 				
-//				System.out.println("ContentType="+fileItem.getContentType());
-//				System.out.println("Size in bytes="+fileItem.getSize());
-//				
-				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue());
-//				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue() + File.separator + fileName1);
+				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
+						File.separator+ cookies[0].getValue());
 				
-				System.out.println("Ciccio!");
 				if (dir.exists()){
-					System.out.println("Pasticcio");
 					File[] directoryListing = dir.listFiles();
 					
-					response.setContentType("text/xml; charset=UTF-8");
-					response.setHeader("Cache-Control", "no-cache"); 
-					PrintWriter out = response.getWriter();
-					
-					
-					  if (directoryListing != null){
-						  System.out.println("La directory esiste!");
-		
-						  String xml = "";			  
-						 
-					    for (int i=0; i<directoryListing.length; i++){
-//					    	out.append("<br>");
-//							out.append("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+
-//									"\">Download "+getFileName(child.getName())+"</a>");
-//					    	System.out.println("Aggiunge il tag <list>");
-//					    	System.out.println(child.getName());
-//					    	System.out.println(getFileName(child.getName()));
-//					    	System.out.println("<list>"+getFileName(child.getName())+"</list>");
-//					    	
-					    	xml=xml.concat("\n<list>"+directoryListing[i].getName()+"</list>");
-					  
+					out.write("<root>");				  						
+						if (directoryListing != null){
+							
+					    for (File child :directoryListing){
+					    	System.out.println("<list>"+getFileName(child.getName())+"</list>");
+					    	out.write("<list>"+getFileName(child.getName())+"</list>");
 							}
-					    System.out.println(xml);
-					    out.write(xml);
-					  } 
-					  else{
-						  
-					  }
-									
+					    out.write("</root>");
+						} 
+						else{
+						  System.out.println("Non esiste una lista!");
+						}			
 				}
 				else {
-					System.out.println("Non esiste una cartella!");	
+					System.out.println("Non esiste una directory utente!");	
 				}
-				
-//				System.out.println("Absolute Path at server="+file.getAbsolutePath());
-//				fileItem.write(file);
-				
-//				out.append("File "+fileItem.getName()+ " Uploaded successfully.");
-								
+										
 				/*inserire LISTA e nuovo UPLOAD*/
-				
-				
-//			}
-			
-//		} catch (FileUploadException e) {
-//			out.write("Exception in uploading file.");
+		
 		} catch (Exception e) {
-			//out.write("Exception in uploading file.");
+			out.write("Exception in uploading file.");
 		}
-		//out.append("</body></html>");
+
 	}
 	
 	public void dispatch(javax.servlet.http.HttpServletRequest request,

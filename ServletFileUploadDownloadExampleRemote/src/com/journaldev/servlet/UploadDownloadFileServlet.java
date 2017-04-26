@@ -100,7 +100,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 			while(fileItemsIterator.hasNext()){
 				String fileName1="";
 				FileItem fileItem = fileItemsIterator.next();
-				System.out.println("FieldName="+fileItem.getFieldName());
+				//System.out.println("FieldName="+fileItem.getFieldName());
 				System.out.println("FileName="+fileItem.getName());
 				
 				String fileN = fileItem.getName();
@@ -109,32 +109,22 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				System.out.println("ContentType="+fileItem.getContentType());
 				System.out.println("Size in bytes="+fileItem.getSize());
 				
-				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue());
-				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+ cookies[0].getValue() + File.separator + fileName1);
+				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
+						File.separator+ cookies[0].getValue());
+				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+
+						File.separator+ cookies[0].getValue() + File.separator + fileName1);
 				
 				if (!dir.exists()){
 					dir.mkdirs();
 				}
 				
 				System.out.println("Absolute Path at server="+file.getAbsolutePath());
-				fileItem.write(file);
 				
+				fileItem.write(file);
 				out.append("File "+fileItem.getName()+ " Uploaded successfully.");
 								
-				/*inserire LISTA e nuovo UPLOAD*/
+				/*inserire LISTA e ricarica nuovo UPLOAD*/
 				
-//				File[] directoryListing = dir.listFiles();
-				
-//				  if (directoryListing != null){
-//				    for (File child : directoryListing){
-//				    	out.append("<pippol>valido</pippol>");
-//				    	out.append("<br>");
-//						out.append("<a href=\"UploadDownloadFileServlet?fileName="+child.getName()+
-//								"\">Download "+getFileName(child.getName())+"</a>");
-//						}
-//				  } 
-//				  else{
-//				  }
 			}
 			
 		} catch (FileUploadException e) {
