@@ -79,7 +79,6 @@
 	}
 	//Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
 	function gestisciRispostalist(responseXML) {
-
 		if(responseXML.getElementsByTagName("list").length > 0) {
 			var risposta = responseXML.getElementsByTagName("list");
 			var output = document.getElementById("risultato");
@@ -98,6 +97,11 @@
 			} 
 			
 		  }
+		else
+			{
+				alert("Nessun cookie presente, ritornare alla pagina di login ed effettuare l'accesso");
+				window.location = 'login.html';
+			}
 		
 	}
 //***********************************************************************************

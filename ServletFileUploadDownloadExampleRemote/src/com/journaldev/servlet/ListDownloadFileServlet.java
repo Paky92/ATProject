@@ -90,7 +90,8 @@ public class ListDownloadFileServlet extends HttpServlet {
 			
 		    // Get an array of Cookies associated with this domain
 		    cookies = request.getCookies();
-				
+		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore null, ecco perchè viene fatto questo controllo qui
+		    {			
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
 						File.separator+ cookies[0].getValue());
 				
@@ -99,7 +100,7 @@ public class ListDownloadFileServlet extends HttpServlet {
 					
 					out.write("<root>");				  						
 						if (directoryListing != null){
-							
+							System.out.println(cookies[0].getValue());
 					    for (File child :directoryListing){
 					    	System.out.println("<list>"+getFileName(child.getName())+"</list>");
 					    	out.write("<list>"+getFileName(child.getName())+"</list>");
@@ -113,6 +114,11 @@ public class ListDownloadFileServlet extends HttpServlet {
 				else {
 					System.out.println("Non esiste una directory utente!");	
 				}
+		    }
+		    else
+		    {
+		    	out.write("<root> </root>");	//Se non sono presenti cookie, viene creato un oggetto XML vuoto, in modo che il motore AJAX   									
+		    }									//in upload.html possa interpretare la risposta e rimandare alla pagina di login
 										
 		
 		} catch (Exception e) {

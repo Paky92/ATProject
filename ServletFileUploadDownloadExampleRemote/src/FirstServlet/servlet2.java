@@ -11,6 +11,7 @@ import java.sql.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,12 +49,12 @@ public class servlet2 extends HttpServlet {
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection con = DriverManager.getConnection(url, "root", "");
+		Connection con = DriverManager.getConnection(url, "root", "000000");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();
-		out.println("\nServlet2 - Sign In (Login) and dispatching to upload.html");
+		//out.println("\nServlet2 - Sign In (Login) and dispatching to upload.html");
 
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
 		String queryCheck = "SELECT * FROM account WHERE username = ? AND password = ?";
@@ -64,10 +65,14 @@ public class servlet2 extends HttpServlet {
         
 		if (rs.next() == true)
 		{
+			Cookie ck=new Cookie("name",rs.getString("username")); 
+			ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
+	        response.addCookie(ck);  
 			dispatch(request, response, "upload.html");
 			/*inserire LISTA file dell'utente loggato*/
 			/*se non sono presenti file, inserire un messaggio di ASSENZA directory e/o file*/
 			st.close();
+			System.out.println(ck.getValue());
 		}
 		else
 		{

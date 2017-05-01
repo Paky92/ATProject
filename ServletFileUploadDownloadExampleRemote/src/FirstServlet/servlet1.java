@@ -48,7 +48,7 @@ public class servlet1 extends HttpServlet {
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection con = DriverManager.getConnection(url, "root", "");
+		Connection con = DriverManager.getConnection(url, "root", "000000");
 		//Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
