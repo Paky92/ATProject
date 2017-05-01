@@ -11,6 +11,7 @@ import java.sql.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,7 +78,7 @@ public class servlet1 extends HttpServlet {
 					out.println("<title>servlet1</title>");
 				out.println("</head>");
 				out.println("<body>");
-					out.println("<form <button onclick=\"window.history.back()\">Click here to GoBack</button> </form>");
+					out.println("<form action=\"http://localhost:8080/myfilehosting/signup.html\"> <button>Click here to GoBack</button> </form>");
 				out.println("</body>");
 			out.println("</html>");
 			
@@ -95,6 +96,9 @@ public class servlet1 extends HttpServlet {
 		IA.setString(2, account.leggiPassword());
 		IA.setString(3, account.leggiEmail());
 		
+		Cookie ck=new Cookie("name",rs.getString("username")); 
+		ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
+        response.addCookie(ck); 
 		dispatch(request, response, "upload.html");
 		
 		IA.executeUpdate();
