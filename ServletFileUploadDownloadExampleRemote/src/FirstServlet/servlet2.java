@@ -24,9 +24,11 @@ public class servlet2 extends HttpServlet {
 			javax.servlet.http.HttpServletResponse response, String nextPage)
 			throws ServletException, IOException {
 
-
-			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			dispatch.forward(request, response);
+			String redirect = 
+			    response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
+			response.sendRedirect(redirect);
+			/*RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+			dispatch.forward(request, response);*/
 
 			}
 	
@@ -49,7 +51,7 @@ public class servlet2 extends HttpServlet {
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection con = DriverManager.getConnection(url, "root", "000000");
+		Connection con = DriverManager.getConnection(url, "root", "");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
@@ -69,8 +71,6 @@ public class servlet2 extends HttpServlet {
 			ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
 	        response.addCookie(ck);  
 			dispatch(request, response, "upload.html");
-			/*inserire LISTA file dell'utente loggato*/
-			/*se non sono presenti file, inserire un messaggio di ASSENZA directory e/o file*/
 			st.close();
 			System.out.println(ck.getValue());
 		}
@@ -85,7 +85,7 @@ public class servlet2 extends HttpServlet {
 					out.println("<title>servlet1</title>");
 				out.println("</head>");
 				out.println("<body>");
-					out.println("<form <button onclick=\"window.history.back()\">Click here to GoBack</button> </form>");
+					out.println("<form> <button onclick=\"window.history.back()\">Click here to GoBack</button> </form>");
 				out.println("</body>");
 			out.println("</html>");
 			

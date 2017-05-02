@@ -49,7 +49,7 @@ public class servlet1 extends HttpServlet {
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection con = DriverManager.getConnection(url, "root", "000000");
+		Connection con = DriverManager.getConnection(url, "root", "");
 		//Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
@@ -96,14 +96,15 @@ public class servlet1 extends HttpServlet {
 		IA.setString(2, account.leggiPassword());
 		IA.setString(3, account.leggiEmail());
 		
-		Cookie ck=new Cookie("name",rs.getString("username")); 
+		IA.executeUpdate();
+		IA.close();
+		st.close();
+		
+		Cookie ck=new Cookie("name", account.leggiUsername()); 
 		ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
         response.addCookie(ck); 
 		dispatch(request, response, "upload.html");
 		
-		IA.executeUpdate();
-		IA.close();
-		st.close();
 		
 		}
     }

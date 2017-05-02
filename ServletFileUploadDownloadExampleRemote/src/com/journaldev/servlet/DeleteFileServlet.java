@@ -23,8 +23,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-@WebServlet("/ListDownloadFileServlet")
-public class ListDownloadFileServlet extends HttpServlet {
+@WebServlet("/DeleteFileServlet")
+public class DeleteFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ServletFileUpload uploader = null;
     
@@ -44,13 +44,15 @@ public class ListDownloadFileServlet extends HttpServlet {
 		out.println("WARNING: Questa servlet1 non supporta il metodo doGet()!"
 				+ "\nPrego, provare col metodo doPost() (eseguire la FirstForm).");
 		
+	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 
-		response.setContentType("text/xml");
-		response.setHeader("Cache-Control", "no-cache"); 
+		System.out.println("Entrato nella servlet");
+		//response.setContentType("text/xml");
+		//response.setHeader("Cache-Control", "no-cache"); 
 		PrintWriter out = response.getWriter();
 		try {
 			
@@ -60,34 +62,35 @@ public class ListDownloadFileServlet extends HttpServlet {
 		    {			
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
 						File.separator+ cookies[0].getValue());
-				out.write("<root>");
-				if (dir.exists()){
+				//out.write("<root>");
+				System.out.println("Entrato nell'if");
 					File[] directoryListing = dir.listFiles();
-							  						
-						if (directoryListing != null){
-							System.out.println(cookies[0].getValue());
-					    for (File child :directoryListing){
-					    	System.out.println("<list>"+getFileName(child.getName())+"</list>");
-					    	out.write("<list>"+getFileName(child.getName())+"</list>");
+					for (File child :directoryListing)
+					{
+						System.out.println(child.getName() + " " + request.getParameter("nomefile"));
+						if (child.getName().equals(request.getParameter("nomefile")))
+						{
+							System.out.println("Entrato nel secondo if");
+							try
+							{
+								System.out.println("Stai per cancellare un file");
+								child.delete();
+								System.out.println("Hai cancellato un file");
 							}
-						} 
-						else{
-						  System.out.println("Non esiste una lista!");
-						}			
-				}
-				else 
-				{
-					System.out.println("Non esiste una directory utente!");	
-				}
-				out.write("</root>");
-		    }
-		    else
-		    {
-		    	System.out.println("<root><assente>ciao</assente></root>");
-		    	out.write("<root><assente>ciao</assente></root>");	//Se non sono presenti cookie, viene creato un oggetto XML vuoto, in modo che il motore AJAX   									
-		    }									//in upload.html possa interpretare la risposta e rimandare alla pagina di login
-										
-		
+							catch (Exception e)
+							{
+								out.write("Exception in deleting file.");
+							}
+						}
+					}
+					//response.sendRedirect("upload.html");
+					//request.getRequestDispatcher("/upload.html").forward(request,response);
+					dispatch (request, response, "upload.html");
+			} 		
+			else 
+			{
+				System.out.println("Non esiste una directory utente!");	
+			}
 		} catch (Exception e) {
 			out.write("Exception in uploading file.");
 		}
@@ -97,33 +100,12 @@ public class ListDownloadFileServlet extends HttpServlet {
 	public void dispatch(javax.servlet.http.HttpServletRequest request,
 			javax.servlet.http.HttpServletResponse response, String nextPage)
 			throws ServletException, IOException {
+			System.out.println("Entrato nel dispatcher");
 			String redirect = 
-			    response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
-			response.sendRedirect(redirect);
+				    response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
+				response.sendRedirect(redirect);
 //			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 //			dispatch.forward(request, response);
 			}
 	
-	public String getFileName(String fname) {
-		  
-	      String string_originale = fname.substring(fname.indexOf("=") + 1, fname.length());
-	      String stringa_invertita = "";
-	      String fileN = "";
-	      int i = 0;
-	   
-	      i = string_originale.length()-1;
-	      
-	      do{
-	    	  stringa_invertita = stringa_invertita + string_originale.charAt(i);
-	          i--;
-	        }
-	      while(!(string_originale.charAt(i) == '\\' || i == 0));
-	      	  stringa_invertita = stringa_invertita + string_originale.charAt(i);
-	 	  
-	      for (int j = stringa_invertita.length() - 1; j >= 0; j--){
-	    	  fileN = fileN + stringa_invertita.charAt(j);
-	        }
-	      
-	      return fileN;
-	}
 }

@@ -22,45 +22,7 @@
 		}
 		return request;
 	}
-	// Javascript Call-Back from Client to Ajax Engine
-	function validaInput() {
-		var ricerca = document.getElementById("testo");
-		if (ricerca.value != "") {
-			var req = newXMLHttpRequest();
-			req.onreadystatechange = function() {
-				if (req.readyState == 4) {
-					if (req.status == 200) {
-						gestisciRisposta(req.responseXML);
-					}
-				}
-			};
-	// Ajax Engine spedisce la richiesta al Server, gestita dalla servlet 'validate' 
-			req.open("post", "validate", true);
-			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-			var params = "id=" + escape(ricerca.value);
-			req.send(params);
-		}
-	}
-	//Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
-	function gestisciRisposta(responseXML) {
-		if(responseXML.getElementsByTagName("risposta").length > 0) {
-			var risposta = responseXML.getElementsByTagName("risposta")[0];
-			var output = document.getElementById("risultato");
-			output.innerHTML = "";
-			if(risposta.childNodes[0].nodeValue == "valido") {
-				// L'input esiste
-				output.setAttribute("style", "color:green");
-				output.appendChild(document.createTextNode("esiste"));
-			} else {
-				// L'input non esiste
-				output.setAttribute("style", "color:red");
-				output.appendChild(document.createTextNode("non esiste"));
-				
-			}
-		}
-	}
-
-//***********************************************************************************
+	
 	// Javascript Call-Back from Client to Ajax Engine
 	function list() {
 			var req = newXMLHttpRequest();
@@ -79,31 +41,54 @@
 	}
 	//Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
 	function gestisciRispostalist(responseXML) {
-		if(responseXML.getElementsByTagName("list").length > 0) {
-			var risposta = responseXML.getElementsByTagName("list");
-			var output = document.getElementById("risultato");
-			output.innerHTML = "";
-						
-			for (var i = 0; i < risposta.length; i++) {   
-			    var user = risposta[i].firstChild.nodeValue;
-			    var li = document.createElement("LI");
-			    var a = document.createElement('a');
-			    var linkText = document.createTextNode(user);
-			    a.appendChild(linkText);
-				a.title = "link";
-			    a.href="UploadDownloadFileServlet?fileName="+user;
-			    li.appendChild(a);
-			    output.appendChild(li);
-			} 
-			
-		  }
+		if (responseXML.getElementsByTagName("assente").length > 0)
+		{
+			alert("Nessun cookie presente, ritornare alla pagina di login ed effettuare l'accesso");
+			window.location = 'login.html';
+		}
 		else
+		{
+			if(responseXML.getElementsByTagName("list").length > 0) {
+				var risposta = responseXML.getElementsByTagName("list");
+				var output = document.getElementById("risultato");
+				output.innerHTML = "";
+						
+				for (var i = 0; i < risposta.length; i++) {   
+			    	var user = risposta[i].firstChild.nodeValue;
+			    	var li = document.createElement("LI");
+			    	
+			    	var delete_button = document.createElement("BUTTON");
+			    	var deleteText = document.createTextNode("DELETE");
+			    	
+			    	var a = document.createElement('a');
+			    	var linkText = document.createTextNode(user);
+			    	
+			    	delete_button.appendChild(deleteText);
+			    	delete_button.value = user;
+			    	delete_button.name = "nomefile";
+			    	
+			    	a.appendChild(linkText);
+					a.title = "link";
+			    	a.href="UploadDownloadFileServlet?fileName="+user;
+			    	li.appendChild(a);
+			    	
+			    	output.appendChild(li);
+			    	output.appendChild(delete_button);
+				}	 			
+			  }
+			else
 			{
-				alert("Nessun cookie presente, ritornare alla pagina di login ed effettuare l'accesso");
-				window.location = 'login.html';
-			}
-		
+				var output = document.getElementById("risultato");
+				var li = document.createElement("LI");
+				var linkText = document.createTextNode("Nessun file uploadato");
+				li.appendChild(linkText);
+				output.setAttribute("style", "color:red");
+				output.appendChild(li);
+			}	
+		}
 	}
+	
+	
 //***********************************************************************************
 	
 </script>
@@ -115,9 +100,10 @@
 Select File to Upload:
 <input id="testo" type="file" name="fileName" ></input>
 <input type="submit" value="Upload"></input>
+</form>
 
+<form action="DeleteFileServlet" method="post">
 <ul id="risultato"></ul>
-
 </form>
 
 </body>
