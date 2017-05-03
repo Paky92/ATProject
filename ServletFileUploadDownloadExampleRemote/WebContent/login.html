@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>First Form JQuery Sign In</title>
+  <title>Sign In (Autenticazione)</title>
   <meta name="description" content="Form AT">
  
   <script src="http://jqueryvalidation.org/files/lib/jquery.form.js"></script>
@@ -9,18 +9,20 @@
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
  
   <script src="jquery/validation.js"></script> 
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
   <!--  script src="jquery/cookie.js"></script> -->
   
    </head>
 
 <body>
 <h2>Sign In</h2>
-<form id="form" name="login" method="POST" action="servlet2"  >
+<form id="form" name="login" method="POST" action="servlet2">
 
 <p>Account</p>
-	<p align="left">
+	<p align="left" class="username">
 	Username: <input type="text" name="username" id="user" size=20></p>
-	<p align="left">
+	<p align="left" class="password">
 	Password: <input type="password" name="password" size=20></p>
 
 	<p align="left">

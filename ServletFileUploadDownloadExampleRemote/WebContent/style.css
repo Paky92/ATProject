@@ -1,0 +1,45 @@
+@CHARSET "ISO-8859-1";
+
+.welcome{
+   font-family: Arial;
+   font-size:30px;
+   color: green;
+   font-weight: Bold;
+}
+.signup{
+   font-family: Arial;
+   font-size:25px;
+   color: blue;
+   font-weight: Bold;
+}
+.signin{
+   font-family: Arial;
+   font-size:25px;
+   color: red;
+   font-weight: Bold;
+}
+
+.account{
+   font-family: Arial;
+   font-size:25px;
+   color: blue;
+   font-weight: Bold;
+}
+.username{
+   font-family: Arial;
+   font-size:20px;
+   color: green;
+   font-weight: Bold;
+}
+.password{
+   font-family: Arial;
+   color: yellow;
+   font-size:20px;
+   font-weight: Bold;
+}
+.email{
+   font-family: Arial;
+   color: red;
+   font-size:20px;
+   font-weight: Bold;
+}

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>First Form JQuery</title>
+  <title>SignUp (Registrazione Utente)</title>
   <meta name="description" content="Form AT">
   
   <script src="http://jqueryvalidation.org/files/lib/jquery.form.js"></script>
@@ -9,19 +9,26 @@
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
   
   <script src="jquery/validation.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
   <!-- script src="jquery/cookie.js"></script> -->
 </head>
 
 <body>
-<h2>Sign Up</h2>
 
 <form id="form" name="form_jquery" method="POST" action="servlet1">
 
-<p>Account</p>
-	<p align="left">
-	Username: <input type="text" name="username" id="user" size=20></p>
-	<p align="left">
+<p class="account">
+Sign Up (Registrazione Account Utente)</p>
+
+	<p align="left" class="username">
+	Username: <input type="text" name="username" id="user" size=20></p>  
+	
+	<p align="left" class="password">
 	Password: <input type="password" name="password" size=20></p>
+	
+	<p align="left" class="email">
+	Email: <input type="email" name="email" size=20></p>
 
 	<p align="left">
 	<input type="submit" value="Invia" name="B1"/> 

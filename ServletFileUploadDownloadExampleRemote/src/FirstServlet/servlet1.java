@@ -5,7 +5,9 @@ package FirstServlet;
 
 import firstClasses.*;
 
+import java.awt.Desktop;
 import java.io.*;
+import java.net.URI;
 import java.sql.*;
 
 import javax.servlet.RequestDispatcher;
@@ -41,16 +43,18 @@ public class servlet1 extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
+		
+		
         //URL del database locale che memorizza le credenziali inserite nella FirstForm
-        //String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
-		String url = "jdbc:mysql://localhost:3306/at";
+          String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
+		//String url = "jdbc:mysql://localhost:3306/at";
 		
 	try
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection con = DriverManager.getConnection(url, "root", "");
-		//Connection con = DriverManager.getConnection(url, "root_at", "at");
+		//Connection con = DriverManager.getConnection(url, "root", "");
+		Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
@@ -99,10 +103,11 @@ public class servlet1 extends HttpServlet {
 		IA.executeUpdate();
 		IA.close();
 		st.close();
-		
+				
 		Cookie ck=new Cookie("name", account.leggiUsername()); 
 		ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
         response.addCookie(ck); 
+        
 		dispatch(request, response, "upload.html");
 		
 		
