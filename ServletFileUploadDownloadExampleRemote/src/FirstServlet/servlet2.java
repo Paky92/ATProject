@@ -45,14 +45,14 @@ public class servlet2 extends HttpServlet {
 			throws ServletException, IOException {
 		
         //URL del database locale che memorizza le credenziali inserite nella FirstForm
-          String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
+        String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
 		//String url = "jdbc:mysql://localhost:3306/at";
           
 	try
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		//Connection con = DriverManager.getConnection(url, "root", "");
+		//Connection con = DriverManager.getConnection(url, "root", "000000");
 		Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client

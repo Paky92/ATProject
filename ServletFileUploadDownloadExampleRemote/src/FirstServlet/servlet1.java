@@ -46,14 +46,14 @@ public class servlet1 extends HttpServlet {
 		
 		
         //URL del database locale che memorizza le credenziali inserite nella FirstForm
-          String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
+        String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
 		//String url = "jdbc:mysql://localhost:3306/at";
 		
 	try
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		//Connection con = DriverManager.getConnection(url, "root", "");
+		//Connection con = DriverManager.getConnection(url, "root", "000000");
 		Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
@@ -107,7 +107,7 @@ public class servlet1 extends HttpServlet {
 		Cookie ck=new Cookie("name", account.leggiUsername()); 
 		ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
         response.addCookie(ck); 
-        
+        System.out.println(request.getServletContext().toString());
 		dispatch(request, response, "upload.html");
 		
 		
