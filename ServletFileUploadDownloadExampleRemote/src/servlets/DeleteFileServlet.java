@@ -6,8 +6,6 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
-
 import javax.servlet.ServletException;
 
 import javax.servlet.annotation.WebServlet;
@@ -25,9 +23,7 @@ public class DeleteFileServlet extends HttpServlet {
 	Cookie[] cookies = null;	
     
 	@Override
-	public void init() throws ServletException{}
 	
-	//si può anche eliminare la GET per il Download
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
@@ -46,7 +42,6 @@ public class DeleteFileServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try {
 			
-		    // Get an array of Cookies associated with this domain
 		    cookies = request.getCookies();
 		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore null
 		    {			

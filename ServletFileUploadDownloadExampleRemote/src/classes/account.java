@@ -43,11 +43,5 @@ public class account{
 	public void impostaEmail(String email){
 		this.email=email;
 	}
-	
-	
-
-	public static void main(String[] args){
-	
-	}
 
 }
