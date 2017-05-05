@@ -1,4 +1,4 @@
-package com.journaldev.servlet;
+package servlets;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package com.journaldev.servlet;
+package servlets;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +40,7 @@ public class ListDownloadFileServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/plan");
-		out.println("WARNING: Questa servlet1 non supporta il metodo doGet()!"
+		out.println("WARNING: Questa SignupServlet non supporta il metodo doGet()!"
 				+ "\nPrego, provare col metodo doPost() (eseguire la FirstForm).");
 		
 	}

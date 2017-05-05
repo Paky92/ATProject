@@ -4,18 +4,33 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>Upload</title>
+<title>Riepilogo Credenziali</title>
 
+<link rel="stylesheet" type="text/css" href="/stylesheet/style.css">
 
 </head>
 <body>
-
+<form>
+<p class="check">
+Hai inserito le seguenti credenziali:
+<br> 
 <%
-     out.println( (String) request.getAttribute("Username" ) ) ;
-     out.println( (String) request.getAttribute("Password" ) ) ;
-     out.println( (String) request.getAttribute("Email" ) ) ;
-
+     out.println((String) request.getAttribute("Username: "));
 %>
+<br> 
+<%
+	 out.println((String) request.getAttribute("Password: "));
+%>
+<br> 
+<%   
+	 out.println((String) request.getAttribute("Email: ")); 
+%>
+<br> 
+<p class="upload">
+Ora sei pronto per entrare nel fantastico mondo di SPSS!
+</p> <a href='upload.html'>Clicca qui senza esitare!</a>
 
+
+</form>
 </body>
 </html>
