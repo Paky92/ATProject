@@ -19,17 +19,17 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/servlet2")
 public class servlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	 Cookie cookie = null;
+	 Cookie[] cookies = null;	
 
 	public void dispatch(javax.servlet.http.HttpServletRequest request,
 			javax.servlet.http.HttpServletResponse response, String nextPage)
-			throws ServletException, IOException {
-
-//			String redirect = 
-//			    response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
-//			response.sendRedirect(redirect);
-			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			dispatch.forward(request, response);
-
+					throws ServletException, IOException {
+		
+		String redirect = response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
+		response.sendRedirect(redirect);
+			
 			}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -45,20 +45,22 @@ public class servlet2 extends HttpServlet {
 			throws ServletException, IOException {
 		
         //URL del database locale che memorizza le credenziali inserite nella FirstForm
-        String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
-		//String url = "jdbc:mysql://localhost:3306/at";
+        //String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
+		String url = "jdbc:mysql://localhost:3306/at";
           
 	try
     {
+		// Get an array of Cookies associated with this domain
+	    cookies = request.getCookies();
+	    
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		//Connection con = DriverManager.getConnection(url, "root", "000000");
-		Connection con = DriverManager.getConnection(url, "root_at", "at");
+		Connection con = DriverManager.getConnection(url, "root", "");
+		//Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();
-		//out.println("\nServlet2 - Sign In (Login) and dispatching to upload.html");
 
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
 		String queryCheck = "SELECT * FROM account WHERE username = ? AND password = ?";
@@ -69,13 +71,28 @@ public class servlet2 extends HttpServlet {
         
 		if (rs.next() == true)
 		{
-			Cookie ck=new Cookie("name",rs.getString("username")); 
-			ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
-	        response.addCookie(ck);  
-			dispatch(request, response, "upload.html");
+			if (cookie != null){
+				
+				if (!request.getParameter("username").equals(cookies[0].getValue())){
+					
+					cookies[0].setValue(request.getParameter("username"));
+					cookies[0].setMaxAge(1000);
+				
+				}
+			}
+			else{
+				
+				Cookie ck=new Cookie("name", rs.getString("username")); 
+				ck.setMaxAge(1000);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
+				response.addCookie(ck);
+				
+			}		
+	
+			dispatch(request, response, "upload.html");	
 			st.close();
-			System.out.println(ck.getValue());
+			
 		}
+	
 		else
 		{
 			out.println("\nERROR: Username o password sbagliati, ricontrollare");
@@ -87,7 +104,8 @@ public class servlet2 extends HttpServlet {
 					out.println("<title>servlet1</title>");
 				out.println("</head>");
 				out.println("<body>");
-					out.println("<form> <button onclick=\"window.history.back()\">Click here to GoBack</button> </form>");
+				out.println("<form>"
+						+ "<a href='login.html'>Clicca per tornare indietro a Sign In</a> </form>");
 				out.println("</body>");
 			out.println("</html>");
 			

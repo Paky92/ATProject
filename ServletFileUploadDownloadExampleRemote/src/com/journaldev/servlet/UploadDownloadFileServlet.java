@@ -131,14 +131,11 @@ public class UploadDownloadFileServlet extends HttpServlet {
 	
 	public void dispatch(javax.servlet.http.HttpServletRequest request,
 			javax.servlet.http.HttpServletResponse response, String nextPage)
-			throws ServletException, IOException {
-//
-//			String redirect = 
-//			    response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
-//			response.sendRedirect(redirect);
-//		
-			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			dispatch.forward(request, response);
+					throws ServletException, IOException {
+		
+		String redirect = response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
+		response.sendRedirect(redirect);
+			
 			}
 	
 	public String getFileName(String fname) {

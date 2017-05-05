@@ -5,9 +5,7 @@ package FirstServlet;
 
 import firstClasses.*;
 
-import java.awt.Desktop;
 import java.io.*;
-import java.net.URI;
 import java.sql.*;
 
 import javax.servlet.RequestDispatcher;
@@ -24,11 +22,11 @@ public class servlet1 extends HttpServlet {
 
 	public void dispatch(javax.servlet.http.HttpServletRequest request,
 			javax.servlet.http.HttpServletResponse response, String nextPage)
-			throws ServletException, IOException {
-
-			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			dispatch.forward(request, response);
-
+					throws ServletException, IOException {
+		
+		String redirect = response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
+		response.sendRedirect(redirect);
+			
 			}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -43,24 +41,21 @@ public class servlet1 extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		
-		
-        //URL del database locale che memorizza le credenziali inserite nella FirstForm
-        String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
-		//String url = "jdbc:mysql://localhost:3306/at";
+        //URL del database locale che memorizza le credenziali inserite nella form
+        //String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
+		String url = "jdbc:mysql://localhost:3306/at";
 		
 	try
     {
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		//Connection con = DriverManager.getConnection(url, "root", "000000");
-		Connection con = DriverManager.getConnection(url, "root_at", "at");
+		Connection con = DriverManager.getConnection(url, "root", "");
+		//Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
 		PrintWriter out = response.getWriter();
-		out.println("\nServlet1 - Sign UP and dispatching to upload.html");
-
+	
 		// Controllo che il nickname inserito sia diverso dal username di un account già esistente
 		String queryCheck = "SELECT * FROM account WHERE username = ?";
 		PreparedStatement st = con.prepareStatement(queryCheck); 
@@ -79,10 +74,11 @@ public class servlet1 extends HttpServlet {
 			out.println("<html>");
 				out.println("<head>");
 				out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
-					out.println("<title>servlet1</title>");
+					out.println("<title>Error Page!</title>");
 				out.println("</head>");
 				out.println("<body>");
-					out.println("<form action=\"http://localhost:8080/myfilehosting/signup.html\"> <button>Click here to GoBack</button> </form>");
+					out.println("<form>"
+							+ "<a href='signup.html'>Clicca per tornare indietro a Sign Up</a> </form>");
 				out.println("</body>");
 			out.println("</html>");
 			
@@ -103,14 +99,16 @@ public class servlet1 extends HttpServlet {
 		IA.executeUpdate();
 		IA.close();
 		st.close();
-				
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("riepilogo.jsp");
+		request.setAttribute("Username", account.leggiUsername()); // set your String value in the attribute
+		request.setAttribute("Password", account.leggiPassword());
+		request.setAttribute("Email", account.leggiEmail());
 		Cookie ck=new Cookie("name", account.leggiUsername()); 
-		ck.setMaxAge(-1);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
+		ck.setMaxAge(-1);  	// (default) viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
         response.addCookie(ck); 
-        System.out.println(request.getServletContext().toString());
-		dispatch(request, response, "upload.html");
-		
-		
+		dispatcher.forward(request, response);
+
 		}
     }
 		

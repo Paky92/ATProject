@@ -26,8 +26,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet("/ListDownloadFileServlet")
 public class ListDownloadFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ServletFileUpload uploader = null;
-    
+      
     Cookie cookie = null;
 	Cookie[] cookies = null;	
     
@@ -56,7 +55,7 @@ public class ListDownloadFileServlet extends HttpServlet {
 			
 		    // Get an array of Cookies associated with this domain
 		    cookies = request.getCookies();
-		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore null, ecco perchè viene fatto questo controllo qui
+		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore null
 		    {			
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
 						File.separator+ cookies[0].getValue());
@@ -84,8 +83,10 @@ public class ListDownloadFileServlet extends HttpServlet {
 		    else
 		    {
 		    	System.out.println("<root><assente>ciao</assente></root>");
-		    	out.write("<root><assente>ciao</assente></root>");	//Se non sono presenti cookie, viene creato un oggetto XML vuoto, in modo che il motore AJAX   									
-		    }									//in upload.html possa interpretare la risposta e rimandare alla pagina di login
+		    	out.write("<root><assente>ciao</assente></root>");	//Se non sono presenti cookie, viene creato 
+		    												//un oggetto XML vuoto, in modo che il motore AJAX   									
+		    }									//in upload.html possa interpretare la risposta e rimandare 
+		    									//alla pagina di login
 										
 		
 		} catch (Exception e) {
@@ -96,12 +97,11 @@ public class ListDownloadFileServlet extends HttpServlet {
 	
 	public void dispatch(javax.servlet.http.HttpServletRequest request,
 			javax.servlet.http.HttpServletResponse response, String nextPage)
-			throws ServletException, IOException {
-			String redirect = 
-			    response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
-			response.sendRedirect(redirect);
-//			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-//			dispatch.forward(request, response);
+					throws ServletException, IOException {
+				
+		String redirect = response.encodeRedirectURL(request.getContextPath() + "/" + nextPage);
+		response.sendRedirect(redirect);
+			
 			}
 	
 	public String getFileName(String fname) {
