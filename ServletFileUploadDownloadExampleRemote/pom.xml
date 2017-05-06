@@ -35,7 +35,6 @@
            <!--   <server>localhost</server>
           	      <url>http://localhost:8080/manager/text</url>	--> 
           <path>/${project.build.finalName}</path>
-          <!-- outputDirectory>C:\xampp\tomcat\webapps</outputDirectory -->
           <update>true</update>
         </configuration>
       </plugin>
