@@ -43,8 +43,8 @@ public class SigninServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
         //URL del database locale che memorizza le credenziali inserite nella FirstForm
-        //String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
-		String url = "jdbc:mysql://localhost:3306/at";
+        String url = "jdbc:mysql://bgianfranco.ddns.net:3132/at";
+		//String url = "jdbc:mysql://localhost:3306/at";
           
 	try
     {
@@ -53,8 +53,8 @@ public class SigninServlet extends HttpServlet {
 	    
 		//Istanza e nuova connessione al database (user="root", password not used)
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection con = DriverManager.getConnection(url, "root", "");
-		//Connection con = DriverManager.getConnection(url, "root_at", "at");
+		//Connection con = DriverManager.getConnection(url, "root", "");
+		Connection con = DriverManager.getConnection(url, "root_at", "at");
 		
 		//Tipo del contenuto della risposta da parte del Server, da inoltrare e far visualizzare sul Browser Client
 		response.setContentType("text/plan");
@@ -71,19 +71,24 @@ public class SigninServlet extends HttpServlet {
 		{
 			if (cookie != null){
 				
-				if (!request.getParameter("username").equals(cookies[0].getValue())){
+				if (!request.getParameter("username").equals(cookies[1].getValue())){
 					
-					cookies[0].setValue(request.getParameter("username"));
-					cookies[0].setMaxAge(1000);
+					cookies[1].setValue(request.getParameter("username"));
+					cookies[1].setMaxAge(1000);
+					cookies[2].setValue(request.getParameter("password"));
+					cookies[2].setMaxAge(1000);
 				
 				}
 			}
 			else{
 				
-				Cookie ck=new Cookie("name", rs.getString("username")); 
-				ck.setMaxAge(1000);  	//Viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
-				response.addCookie(ck);
+				Cookie ck=new Cookie("name", request.getParameter("username"));
+				Cookie ck_2=new Cookie("password", request.getParameter("password"));
 				
+				ck.setMaxAge(1000);  	// (default) viene settata a -1 così ogni volta che si riavvia il browser, questo cookie viene eliminato
+				ck_2.setMaxAge(1000);
+				response.addCookie(ck);
+				response.addCookie(ck_2); 
 			}		
 	
 			dispatch(request, response, "upload.html");	
