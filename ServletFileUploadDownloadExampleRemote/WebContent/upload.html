@@ -24,7 +24,7 @@
 		return request;
 	}
 	
-	// Javascript Call-Back from Client to Ajax Engine
+	// chiamata Javascript call-back dal Client al Ajax Engine
 	function list() {
 			var req = newXMLHttpRequest();
 			req.onreadystatechange = function() {
@@ -40,7 +40,7 @@
 			var params = "";
 			req.send(params);
 	}
-	//Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
+	// Ajax Engine gestisce la risposta in XML proveniente dal Server, per fornire i dati finali al Client
 	function gestisciRispostalist(responseXML) {
 		if (responseXML.getElementsByTagName("assente").length > 0)
 		{

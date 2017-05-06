@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns="http://java.sun.com/xml/ns/javaee" 
-		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-			http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
   <display-name>SimplePrivateStorageServer</display-name>
   <welcome-file-list>
     <welcome-file>home.html</welcome-file>
   </welcome-file-list>
   <context-param>
-    <!-- <param-name>tempfile.dir</param-name>
-    <param-value>tmpfiles</param-value> -->
     <param-name>filehosting.dir</param-name>
     <param-value>filehosting</param-value>
   </context-param>
   <servlet>
-    <servlet-name>servlet1</servlet-name>
-    <servlet-class>src.FirstServlet.servlet1</servlet-class>
+    <servlet-name>SignupServlet</servlet-name>
+    <servlet-class>src.servlets.SignupServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>servlet2</servlet-name>
-    <servlet-class>src.FirstServlet.servlet2</servlet-class>
+    <servlet-name>SigninServlet</servlet-name>
+    <servlet-class>src.servlets.SigninServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UploadDownloadFileServlet</servlet-name>
-    <servlet-class>src.com.journaldev.servlet.UploadDownloadFileServlet</servlet-class>
+    <servlet-class>src.servlets.UploadDownloadFileServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>ListDownloadFileServlet</servlet-name>
-    <servlet-class>src.com.journaldev.servlet.ListDownloadFileServlet</servlet-class>
+    <servlet-class>src.servlets.ListDownloadFileServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>DeleteFileServlet</servlet-name>
-    <servlet-class>src.com.journaldev.servlet.DeleteFileServlet</servlet-class>
+    <servlet-class>src.servlets.DeleteFileServlet</servlet-class>
   </servlet>
-  
 </web-app>

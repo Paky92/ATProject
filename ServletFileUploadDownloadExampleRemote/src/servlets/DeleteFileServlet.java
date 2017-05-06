@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
 
-
 @WebServlet("/DeleteFileServlet")
 public class DeleteFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,29 +35,25 @@ public class DeleteFileServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 
-		System.out.println("Entrato nella servlet");
 		response.setContentType("text/plan");
 
 		PrintWriter out = response.getWriter();
 		try {
 			
 		    cookies = request.getCookies();
-		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore null
+		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore 'null'
 		    {			
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
 						File.separator+ cookies[0].getValue());
 				
-				System.out.println("Entrato nell'if");
 					File[] directoryListing = dir.listFiles();
 					for (File child :directoryListing)
 					{
 						System.out.println(child.getName() + " " + request.getParameter("nomefile"));
 						if (child.getName().equals(request.getParameter("nomefile")))
 						{
-							System.out.println("Entrato nel secondo if");
 							try
 							{
-								System.out.println("Stai per cancellare un file");
 								child.delete();
 								System.out.println("Hai cancellato un file");
 							}
@@ -73,7 +68,9 @@ public class DeleteFileServlet extends HttpServlet {
 			} 		
 			else 
 			{
-				System.out.println("Non esiste una directory utente!");	
+				System.out.println("");
+				out.write("Non esiste una directory riservata all'utente!");
+				
 			}
 		} catch (Exception e) {
 			out.write("Exception in uploading file.");

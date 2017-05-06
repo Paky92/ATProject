@@ -15,14 +15,13 @@
 .upload{
    font-family: Arial;
    font-size:25px;
-   color: blue;
+   color: green;
    font-weight: Bold;
 }
 .check{
    font-family: Arial;
-   font-size:25px;
-   color: blue;
-   font-weight: Bold;
+   font-size:15px;
+   color: black;
 }
 .accesso{
    font-family: Arial;

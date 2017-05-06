@@ -80,14 +80,15 @@ public class UploadDownloadFileServlet extends HttpServlet {
 	
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		if(!ServletFileUpload.isMultipartContent(request)){
 			throw new ServletException("Content type is not multipart/form-data");
 		}
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/plan");
 		try {
-		    // Get an array of Cookies associated with this domain
+		  
 		    cookies = request.getCookies();
 			
 			List<FileItem> fileItemsList = uploader.parseRequest(request);

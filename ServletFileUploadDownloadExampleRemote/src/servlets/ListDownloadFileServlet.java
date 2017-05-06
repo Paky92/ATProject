@@ -42,9 +42,8 @@ public class ListDownloadFileServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try {
 			
-		    // Get an array of Cookies associated with this domain
 		    cookies = request.getCookies();
-		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore null
+		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore 'null'
 		    {			
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
 						File.separator+ cookies[0].getValue());
@@ -53,10 +52,10 @@ public class ListDownloadFileServlet extends HttpServlet {
 					File[] directoryListing = dir.listFiles();
 							  						
 						if (directoryListing != null){
-							System.out.println(cookies[0].getValue());
-					    for (File child :directoryListing){
-					    	System.out.println("<list>"+getFileName(child.getName())+"</list>");
-					    	out.write("<list>"+getFileName(child.getName())+"</list>");
+
+							for (File child :directoryListing){
+								System.out.println("<list>"+getFileName(child.getName())+"</list>");
+								out.write("<list>"+getFileName(child.getName())+"</list>");
 							}
 						} 
 						else{
@@ -73,8 +72,8 @@ public class ListDownloadFileServlet extends HttpServlet {
 		    {
 		    	System.out.println("<root><assente>ciao</assente></root>");
 		    	out.write("<root><assente>ciao</assente></root>");	//Se non sono presenti cookie, viene creato 
-		    												//un oggetto XML vuoto, in modo che il motore AJAX   									
-		    }									//in upload.html possa interpretare la risposta e rimandare 
+		    												//un oggetto XML vuoto, in modo che il Ajax Engine   									
+		    }									//in 'upload.html' possa gestire correttamente la risposta e rimandare 
 		    									//alla pagina di login
 										
 		

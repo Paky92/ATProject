@@ -48,7 +48,7 @@ public class SigninServlet extends HttpServlet {
           
 	try
     {
-		// Get an array of Cookies associated with this domain
+		// Restituisce il vettore di cookies (utente) associati a questo dominio
 	    cookies = request.getCookies();
 	    
 		//Istanza e nuova connessione al database (user="root", password not used)
