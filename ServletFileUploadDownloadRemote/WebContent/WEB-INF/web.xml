@@ -28,4 +28,8 @@
     <servlet-name>DeleteFileServlet</servlet-name>
     <servlet-class>src.servlets.DeleteFileServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SigninCookieServlet</servlet-name>
+    <servlet-class>src.servlets.SigninCookieServlet</servlet-class>
+  </servlet>
 </web-app>
