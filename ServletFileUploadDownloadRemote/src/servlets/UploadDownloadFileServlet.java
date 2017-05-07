@@ -51,7 +51,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 			throw new ServletException("File Name can't be null or empty");
 		}
 		File file = new File(request.getServletContext().getAttribute("FILES_DIR")+
-				File.separator +cookies[0].getValue() +File.separator+fileN);
+				File.separator +cookies[1].getValue() +File.separator+fileN);
 				
 		if(!file.exists()){
 			throw new ServletException("File doesn't exists on server.");
@@ -106,9 +106,9 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				System.out.println("Size in bytes="+fileItem.getSize());
 				
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
-						File.separator+ cookies[0].getValue());
+						File.separator+ cookies[1].getValue());
 				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+
-						File.separator+ cookies[0].getValue() + File.separator + fileName1);
+						File.separator+ cookies[1].getValue() + File.separator + fileName1);
 				
 				if (!dir.exists()){
 					dir.mkdirs();

@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>Upload</title>
- <link rel="stylesheet" type="text/css" href="stylesheet/style.css">
+<link rel="stylesheet" type="text/css" href="stylesheet/style.css">
 <script language="javascript">
 
 	// Crea una nuova richiesta asincrona XML-HTTP from Ajax Engine to Server
@@ -44,8 +44,8 @@
 	function gestisciRispostalist(responseXML) {
 		if (responseXML.getElementsByTagName("assente").length > 0)
 		{
-			alert("Nessun cookie presente, ritornare alla pagina di login ed effettuare l'accesso");
-			window.location = 'login.html';
+			alert("Nessuna informazione presente! Non sei autorizzato ad entrare! Clicca per tornare alla home page!");
+			window.location = 'home.html';
 		}
 		else
 		{

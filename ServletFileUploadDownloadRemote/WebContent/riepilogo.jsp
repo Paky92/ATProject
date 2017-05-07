@@ -12,23 +12,27 @@
 <body>
 <form>
 <p class="check">
-Hai inserito le seguenti credenziali:
-<br> 
+Hai inserito le seguenti credenziali:</p>
+<br>
 <%
-     out.println((String) request.getAttribute("Username"));
+    String usr = String.format("Username: %s", request.getAttribute("Username"));
+	out.println(usr);
 %>
-<br> 
+
+<br>
 <%
-	 out.println((String) request.getAttribute("Password"));
+	String pwd = String.format("Password: %s", request.getAttribute("Password")); 
+	out.println(pwd);
 %>
 <br> 
 <%   
-	 out.println((String) request.getAttribute("Email")); 
+	String ml = String.format("Email: %s", request.getAttribute("Email"));
+	out.println(ml); 
 %>
 <br> 
 <p class="upload">
-Ora sei pronto per entrare nel fantastico mondo di SPSS!
-</p> <a href='upload.html'>Clicca qui senza esitare!</a>
+Ora sei pronto per entrare nel fantastico mondo di SPSS!</p> 
+<a href='upload.html'>Clicca qui senza esitare!</a>
 
 
 </form>

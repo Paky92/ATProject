@@ -44,7 +44,7 @@ public class DeleteFileServlet extends HttpServlet {
 		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore 'null'
 		    {			
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
-						File.separator+ cookies[0].getValue());
+						File.separator+ cookies[1].getValue());
 				
 					File[] directoryListing = dir.listFiles();
 					for (File child :directoryListing)

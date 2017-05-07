@@ -98,7 +98,7 @@ public class SigninServlet extends HttpServlet {
 	
 		else
 		{
-			out.println("\nERROR: Username o password sbagliati, ricontrollare");
+			out.println("\nERROR: Username o password sbagliati, ricontrollare!");
 			response.setContentType("text/html");
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");

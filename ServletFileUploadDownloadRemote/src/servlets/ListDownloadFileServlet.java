@@ -46,7 +46,7 @@ public class ListDownloadFileServlet extends HttpServlet {
 		    if (cookies != null) //Se non sono presenti cookie all'interno della request, cookies avrà valore 'null'
 		    {			
 				File dir =  new File(request.getServletContext().getAttribute("FILES_DIR")+
-						File.separator+ cookies[0].getValue());
+						File.separator+ cookies[1].getValue());
 				out.write("<root>");
 				if (dir.exists()){
 					File[] directoryListing = dir.listFiles();
@@ -74,8 +74,7 @@ public class ListDownloadFileServlet extends HttpServlet {
 		    	out.write("<root><assente>ciao</assente></root>");	//Se non sono presenti cookie, viene creato 
 		    												//un oggetto XML vuoto, in modo che il Ajax Engine   									
 		    }									//in 'upload.html' possa gestire correttamente la risposta e rimandare 
-		    									//alla pagina di login
-										
+		    									//alla pagina di login									
 		
 		} catch (Exception e) {
 			out.write("Exception in uploading file.");
