@@ -51,7 +51,8 @@ public class SigninCookieServlet extends HttpServlet {
     {
 		// Get an array of Cookies associated with this domain
 	    cookies = request.getCookies();
-	 
+	 if (cookies != null)
+	 {
 	    if(cookies.length > 1)
 	    { 	    
 			//Istanza e nuova connessione al database (user="root", password not used)
@@ -83,7 +84,11 @@ public class SigninCookieServlet extends HttpServlet {
 	    {
 	    	dispatch(request, response, "login.html");
 	    }
-	
+	 }
+	 else
+	    {
+	    	dispatch(request, response, "login.html");
+	    }
     }
 		
 	catch (InstantiationException e)
